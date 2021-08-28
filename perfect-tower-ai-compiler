@@ -29,10 +29,6 @@ local args = parser:parse()
 
 local inspect = require('inspect')
 
--- runLua('compile', scripts[activeTab.id][0], editor.getValue());
-
--- print(inspect(args))
-
 local scripts = {}
 
 for i, file in ipairs(args.inputs) do
@@ -40,9 +36,6 @@ for i, file in ipairs(args.inputs) do
     local file_content = file_handler:read('*all')
 
     table.insert(scripts, { name=file, text=file_content})
-    -- workspace()
-    -- local result = compile(file, file_content)
-    -- print(lib.get_nth_from_iterator(result:gmatch('[^\r\n]+'), 3))
 end
 
 function importFunc(filename)
@@ -54,9 +47,6 @@ function importFunc(filename)
     return false, 'Cannot import with name ' .. filename
 end
 
--- print(inspect(scripts))
 local status, result = lua_main('workspace', scripts, importFunc)
-
 print(result)
--- print(string.sub(result, 5, 100))
 
