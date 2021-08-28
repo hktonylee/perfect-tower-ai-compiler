@@ -1,0 +1,62 @@
+#!/usr/bin/env lua
+
+function dirname(str)
+    return str:match("(.*[/\\])")
+end
+
+script_root = dirname(arg[0])
+
+function addPackagePath(path)
+    package.path = package.path .. ';' .. script_root .. path
+end
+
+addPackagePath('externals/inspect-lua/?.lua')
+addPackagePath('externals/argparse/src/?.lua')
+addPackagePath('externals/d0sboots-perfect-tower/?.lua')
+addPackagePath('externals/d0sboots-perfect-tower/scripts/?.lua')
+
+--------------------------------------------------------------------------------
+
+local argparse = require('argparse')
+require('main')
+
+local parser = argparse('perfect-tower-ai-compiler',
+    'The script can compile Perfect Tower II AI scripts into importable string.')
+
+parser:argument('inputs', 'Input script files'):args('+')
+
+local args = parser:parse()
+
+local inspect = require('inspect')
+
+-- runLua('compile', scripts[activeTab.id][0], editor.getValue());
+
+-- print(inspect(args))
+
+local scripts = {}
+
+for i, file in ipairs(args.inputs) do
+    local file_handler = io.open(file, 'r')
+    local file_content = file_handler:read('*all')
+
+    table.insert(scripts, { name=file, text=file_content})
+    -- workspace()
+    -- local result = compile(file, file_content)
+    -- print(lib.get_nth_from_iterator(result:gmatch('[^\r\n]+'), 3))
+end
+
+function importFunc(filename)
+    for i, script in pairs(scripts) do
+        if script.name == filename then
+            return true, script.text
+        end
+    end
+    return false, 'Cannot import with name ' .. filename
+end
+
+-- print(inspect(scripts))
+local status, result = lua_main('workspace', scripts, importFunc)
+
+print(result)
+-- print(string.sub(result, 5, 100))
+

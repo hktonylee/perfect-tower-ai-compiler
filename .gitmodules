@@ -1,0 +1,9 @@
+[submodule "externals/d0sboots-perfect-tower"]
+	path = externals/d0sboots-perfect-tower
+	url = https://github.com/hktonylee/perfect-tower.git
+[submodule "externals/inspect.lua"]
+	path = externals/inspect-lua
+	url = https://github.com/kikito/inspect.lua.git
+[submodule "externals/argparse"]
+	path = externals/argparse
+	url = https://github.com/mpeterv/argparse.git

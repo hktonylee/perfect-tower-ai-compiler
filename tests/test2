@@ -1,0 +1,5 @@
+:global double _1
+:global double _2
+
+click(vec(_1, _2))
+click(vec(_1, _2))
