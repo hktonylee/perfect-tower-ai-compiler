@@ -33,6 +33,12 @@ local scripts = {}
 
 for i, file in ipairs(args.inputs) do
     local file_handler = io.open(file, 'r')
+
+    if file_handler == nil then
+        print('Error: cannot read ' .. file)
+        return
+    end
+    
     local file_content = file_handler:read('*all')
 
     table.insert(scripts, { name=file, text=file_content})
